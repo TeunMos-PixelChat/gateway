@@ -38,7 +38,7 @@ app.use((req, res, next) => {
 
 // test route
 app.get('/test', (req: Request, res: Response) => {
-  res.json({ message: "hello from gateway" });
+  res.json({ message: "hello from gateway :)" });
 });
 
 app.use('/api', proxy(messageApiUrl)); // message api
