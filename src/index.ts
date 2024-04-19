@@ -19,8 +19,8 @@ const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:3000';
 // Authorization middleware. When used, the Access Token must
 // exist and be verified against the Auth0 JSON Web Key Set.
 const checkJwt = auth({
-  audience: 'http://localhost/',
-  issuerBaseURL: `https://dev-1qp5piklx43am651.us.auth0.com/`,
+  audience: process.env.AUTH0_AUDIENCE || 'pixelchat-gateway-identifier',
+  issuerBaseURL: process.env.AUTH0_BASE_URL || `https://dev-1qp5piklx43am651.us.auth0.com/`,
   tokenSigningAlg: 'RS256'
 });
 
