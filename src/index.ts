@@ -44,7 +44,12 @@ app.use((req, res, next) => {
 
 // test route
 app.get('/test', (req: Request, res: Response) => {
-  res.json({ message: "hello from gateway :)" });
+  res.json({ 
+    message: "hello from gateway :)" ,
+    env: process.env.NODE_ENV,
+    auth0_audience: process.env.AUTH0_AUDIENCE,
+    auth0_base_url: process.env.AUTH0_BASE_URL,
+  });
 });
 
 app.use('/api', checkJwt, (req: Request, res: Response, next: NextFunction) => {
@@ -66,7 +71,7 @@ app.use('/', (req: Request, res: Response, next: NextFunction) => {
 
 
 const server = app.listen(port, () => {
-  console.log(`Server is running at http://localhost:${port}`);
+  console.log(`Server is running with port ${port}`);
 });
 
 
