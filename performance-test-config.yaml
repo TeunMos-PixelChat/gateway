@@ -1,0 +1,47 @@
+config:
+  target: http://10.43.51.231
+  phases:
+    - duration: 30
+      arrivalRate: 1
+      rampTo: 5
+      name: Warm up phase
+    - duration: 60
+      arrivalRate: 5
+      rampTo: 15
+      name: Ramp up load
+    - duration: 40
+      arrivalRate: 20
+      rampTo: 50
+      name: Spike phase
+  # Load & configure a couple of useful plugins
+  # https://docs.art/reference/extensions
+  plugins:
+    apdex: {}
+    metrics-by-endpoint: {}
+  apdex:
+    threshold: 100
+scenarios:
+  # This flow simulates a user visiting the application by loading the frontend and then making a request to the API
+  - flow:
+    # first load the frontend
+    - get:
+        url: "/"
+    - get:
+        url: "/favicon.ico"
+    - get:
+        url: "/manifest.json"
+    - get:
+        url: "/statictest/test.js"
+    - get:
+        url: "/statictest/test.css"
+    - think: 1
+
+    # then make a request to the API
+    - loop:
+      - post:
+            url: "/api/test"
+            headers:
+              authorization: "Bearer {{ $env.TOKEN }}"
+            json:
+              message: "Hello, World!"
+      count: 10
