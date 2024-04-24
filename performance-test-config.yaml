@@ -10,8 +10,8 @@ config:
       rampTo: 15
       name: Ramp up load
     - duration: 40
-      arrivalRate: 20
-      rampTo: 50
+      arrivalRate: 15
+      rampTo: 35
       name: Spike phase
   # Load & configure a couple of useful plugins
   # https://docs.art/reference/extensions
