@@ -20,7 +20,7 @@ const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:3000';
 // exist and be verified against the Auth0 JSON Web Key Set.
 const checkJwt = auth({
   audience: process.env.AUTH0_AUDIENCE || 'pixelchat-gateway-identifier',
-  issuerBaseURL: process.env.AUTH0_BASE_URL || `https://dev-1qp5piklx43am651.us.auth0.com/`,
+  issuerBaseURL: `https://${process.env.AUTH0_DOMAIN}`,
   tokenSigningAlg: 'RS256'
 });
 
@@ -48,7 +48,7 @@ app.get('/test', (req: Request, res: Response) => {
     message: "hello from gateway :)" ,
     env: process.env.NODE_ENV,
     auth0_audience: process.env.AUTH0_AUDIENCE,
-    auth0_base_url: process.env.AUTH0_BASE_URL,
+    auth0_base_url: `https://${process.env.AUTH0_DOMAIN}`,
   });
 });
 
