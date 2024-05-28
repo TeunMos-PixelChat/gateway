@@ -14,6 +14,7 @@ const port = process.env.PORT || 3004;
 
 const messageApiUrl = process.env.MESSAGE_API_URL || 'http://localhost:3001';
 const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:3000';
+const userServiceUrl = process.env.USER_SERVICE_URL || 'http://localhost:3002';
 
 
 // Authorization middleware. When used, the Access Token must
@@ -34,7 +35,6 @@ app.use(cors({
   origin: "*"
 }));
 
-// app.use(express.json()); // for parsing application/json
 
 // log all requests
 app.use((req, res, next) => {
@@ -52,13 +52,25 @@ app.get('/test', (req: Request, res: Response) => {
   });
 });
 
-app.use('/api', checkJwt, (req: Request, res: Response, next: NextFunction) => {
+app.use('/api/message', checkJwt, (req: Request, res: Response, next: NextFunction) => {
   if (req.auth) {
     const userId = req.auth.payload.sub;
     req.headers['Authorization'] = `Bearer ${req.auth.token}`;
     req.headers['X-User-Id'] = userId;
 
     proxy(messageApiUrl)(req, res, next);
+  } else {
+    res.status(401).json({ message: "Unauthorized" });
+  }
+});
+
+app.use('/api/user', checkJwt, (req: Request, res: Response, next: NextFunction) => {
+  if (req.auth) {
+    const userId = req.auth.payload.sub;
+    req.headers['Authorization'] = `Bearer ${req.auth.token}`;
+    req.headers['X-User-Id'] = userId;
+
+    proxy(userServiceUrl)(req, res, next);
   } else {
     res.status(401).json({ message: "Unauthorized" });
   }
