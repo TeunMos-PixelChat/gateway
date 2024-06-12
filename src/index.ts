@@ -1,6 +1,6 @@
 import express, { Express, Request, Response, NextFunction } from 'express';
 import proxy from 'express-http-proxy';
-import { auth, requiredScopes } from 'express-oauth2-jwt-bearer';
+import { auth } from 'express-oauth2-jwt-bearer';
 import dotenv from "dotenv";
 import cors from 'cors';
 
@@ -43,7 +43,7 @@ app.use((req, res, next) => {
 });
 
 // test route
-app.get('/test', (req: Request, res: Response) => {
+app.get('/gwtest', (req: Request, res: Response) => {
   res.json({ 
     message: "hello from gateway :)" ,
     env: process.env.NODE_ENV,
