@@ -1,5 +1,5 @@
 import supertest from "supertest"; // supertest is a framework that allows to easily test web APIs
-import { app, server, frontendUrl, messageApiUrl } from "../index";
+import { app, server, frontendUrl, messageApiUrl, userServiceUrl } from "../index";
 import { Request, Response, NextFunction } from "express";
 import { AuthOptions } from "express-oauth2-jwt-bearer";
 
@@ -38,10 +38,19 @@ it("front-end proxy test", async () => {
 });
 
 it("message-api proxy test (with auth)", async () => {
-  const response = await supertest(app).get("/api");
+  const response = await supertest(app).get("/api/message");
   console.log(response.body);
   expect(response.body.message).toBe("proxy test");
   expect(response.body.host).toBe(messageApiUrl);
+  expect(response.body.auth.payload.sub).toBe("123");
+  expect(response.body.auth.token).toBe("token");
+});
+
+it("user-service proxy test (with auth)", async () => {
+  const response = await supertest(app).get("/api/user");
+  console.log(response.body);
+  expect(response.body.message).toBe("proxy test");
+  expect(response.body.host).toBe(userServiceUrl);
   expect(response.body.auth.payload.sub).toBe("123");
   expect(response.body.auth.token).toBe("token");
 });

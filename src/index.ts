@@ -87,4 +87,4 @@ const server = app.listen(port, () => {
 });
 
 
-export { app, server, frontendUrl, messageApiUrl }
+export { app, server, frontendUrl, messageApiUrl, userServiceUrl }
